@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yonshin <yonshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 09:07:47 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/17 02:02:39 by yonshin          ###   ########.fr       */
+/*   Created: 2022/07/07 17:21:56 by yonshin           #+#    #+#             */
+/*   Updated: 2022/07/12 12:02:39 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "libft.h"
 
-void	signal_test(int sig)
+void	*ft_memcpy(void *dst, const void *src, size_t len)
 {
-	static int		buff;
+	unsigned char	*dst_cursor;
+	unsigned char	*src_cursor;
 
-	if (buff == 0)
-		buff = 1;
-	buff = buff << 1;
-	if (sig == SIGUSR2)
-		buff += 1;
-	if (buff < 256)
-		return ;
-	buff -= 256;
-	write(1, &buff, 1);
-	buff = 0;
-}
-
-int	main(void)
-{
-	signal(SIGUSR1, signal_test);
-	signal(SIGUSR2, signal_test);
-	while (1) ;
+	if (dst == 0 && src == 0)
+		return (dst);
+	dst_cursor = (unsigned char *)dst;
+	src_cursor = (unsigned char *)src;
+	while (len-- > 0)
+		dst_cursor[len] = src_cursor[len];
+	return (dst);
 }

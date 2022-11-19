@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yonshin <yonshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 09:07:47 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/17 02:02:39 by yonshin          ###   ########.fr       */
+/*   Created: 2022/07/07 19:14:54 by yonshin           #+#    #+#             */
+/*   Updated: 2022/07/12 11:47:37 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "libft.h"
 
-void	signal_test(int sig)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	static int		buff;
+	size_t	n;
 
-	if (buff == 0)
-		buff = 1;
-	buff = buff << 1;
-	if (sig == SIGUSR2)
-		buff += 1;
-	if (buff < 256)
-		return ;
-	buff -= 256;
-	write(1, &buff, 1);
-	buff = 0;
-}
-
-int	main(void)
-{
-	signal(SIGUSR1, signal_test);
-	signal(SIGUSR2, signal_test);
-	while (1) ;
+	n = 0;
+	while (*src && n + 1 < dstsize)
+	{
+		dst[n] = *src;
+		src++;
+		n++;
+	}
+	if (dstsize > 0)
+		dst[n] = 0;
+	while (*src)
+	{
+		src++;
+		n++;
+	}
+	return (n);
 }

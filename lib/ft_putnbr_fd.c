@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yonshin <yonshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 09:07:47 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/17 02:02:39 by yonshin          ###   ########.fr       */
+/*   Created: 2022/07/10 22:47:33 by yonshin           #+#    #+#             */
+/*   Updated: 2022/07/18 15:43:24 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include <unistd.h>
+#include "libft.h"
 
-void	signal_test(int sig)
+void	ft_putnbr_fd(int n, int fd)
 {
-	static int		buff;
+	char	c;
+	long	num;
 
-	if (buff == 0)
-		buff = 1;
-	buff = buff << 1;
-	if (sig == SIGUSR2)
-		buff += 1;
-	if (buff < 256)
-		return ;
-	buff -= 256;
-	write(1, &buff, 1);
-	buff = 0;
-}
-
-int	main(void)
-{
-	signal(SIGUSR1, signal_test);
-	signal(SIGUSR2, signal_test);
-	while (1) ;
+	num = n;
+	if (num < 0)
+	{
+		write(fd, "-", 1);
+		num = -num;
+	}
+	c = (num % 10) + '0';
+	if (num / 10 > 0)
+		ft_putnbr_fd(num / 10, fd);
+	write(fd, &c, 1);
 }

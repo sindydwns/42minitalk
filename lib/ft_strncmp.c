@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yonshin <yonshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 09:07:47 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/17 02:02:39 by yonshin          ###   ########.fr       */
+/*   Created: 2022/07/07 18:01:38 by yonshin           #+#    #+#             */
+/*   Updated: 2022/07/12 12:03:16 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "libft.h"
 
-void	signal_test(int sig)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	static int		buff;
-
-	if (buff == 0)
-		buff = 1;
-	buff = buff << 1;
-	if (sig == SIGUSR2)
-		buff += 1;
-	if (buff < 256)
-		return ;
-	buff -= 256;
-	write(1, &buff, 1);
-	buff = 0;
-}
-
-int	main(void)
-{
-	signal(SIGUSR1, signal_test);
-	signal(SIGUSR2, signal_test);
-	while (1) ;
+	while ((*s1 != 0 || *s2 != 0) && (n-- != 0))
+	{
+		if ((unsigned char)*s1 != (unsigned char)*s2)
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+		s1++;
+		s2++;
+	}
+	return (0);
 }

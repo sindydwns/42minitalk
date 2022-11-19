@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yonshin <yonshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 09:07:47 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/17 02:02:39 by yonshin          ###   ########.fr       */
+/*   Created: 2022/07/12 06:33:37 by yonshin           #+#    #+#             */
+/*   Updated: 2022/11/02 06:31:12 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "libft.h"
 
-void	signal_test(int sig)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	static int		buff;
-
-	if (buff == 0)
-		buff = 1;
-	buff = buff << 1;
-	if (sig == SIGUSR2)
-		buff += 1;
-	if (buff < 256)
+	if (lst == 0 || new == 0)
 		return ;
-	buff -= 256;
-	write(1, &buff, 1);
-	buff = 0;
-}
-
-int	main(void)
-{
-	signal(SIGUSR1, signal_test);
-	signal(SIGUSR2, signal_test);
-	while (1) ;
+	if (*lst == 0)
+		*lst = new;
+	else
+		ft_lstlast(*lst)->next = new;
 }

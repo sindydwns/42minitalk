@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yonshin <yonshin@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 09:07:47 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/17 02:02:39 by yonshin          ###   ########.fr       */
+/*   Created: 2022/07/10 22:37:07 by yonshin           #+#    #+#             */
+/*   Updated: 2022/09/09 14:29:42 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include <stdlib.h>
+#include "libft.h"
 
-void	signal_test(int sig)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	static int		buff;
+	size_t	len;
+	char	*result;
+	char	*cursor;
 
-	if (buff == 0)
-		buff = 1;
-	buff = buff << 1;
-	if (sig == SIGUSR2)
-		buff += 1;
-	if (buff < 256)
-		return ;
-	buff -= 256;
-	write(1, &buff, 1);
-	buff = 0;
-}
-
-int	main(void)
-{
-	signal(SIGUSR1, signal_test);
-	signal(SIGUSR2, signal_test);
-	while (1) ;
+	if (s1 == 0 || s2 == 0)
+		return (0);
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	result = (char *)malloc(sizeof(char) * len);
+	if (result == 0)
+		return (0);
+	cursor = result;
+	while (*s1)
+		*cursor++ = *s1++;
+	while (*s2)
+		*cursor++ = *s2++;
+	*cursor = 0;
+	return (result);
 }

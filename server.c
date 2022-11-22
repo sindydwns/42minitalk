@@ -6,7 +6,7 @@
 /*   By: yonshin <yonshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 09:07:47 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/22 17:17:44 by yonshin          ###   ########.fr       */
+/*   Updated: 2022/11/22 17:53:39 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	init_sig(t_sig *sig, int pid)
 	sig->i = 0;
 }
 
-void	signal_test2(int sig, siginfo_t *info, void *old)
+void	sigaction_func(int sig, siginfo_t *info, void *old)
 {
 	static t_sig	rev;
-	
+
 	old = 0;
 	if (rev.pid != info->si_pid)
 	{
@@ -48,11 +48,11 @@ void	signal_test2(int sig, siginfo_t *info, void *old)
 
 int	main(void)
 {
-	struct sigaction usrsig;
+	struct sigaction	usrsig;
 
 	ft_putnbr_fd(getpid(), 0);
 	ft_putchar_fd('\n', 0);
-	usrsig.sa_sigaction = signal_test2;
+	usrsig.sa_sigaction = sigaction_func;
 	sigemptyset(&usrsig.sa_mask);
 	usrsig.sa_flags = 0;
 	usrsig.sa_flags = SA_SIGINFO | SA_NODEFER;
@@ -60,6 +60,7 @@ int	main(void)
 		exit(1);
 	if (sigaction(SIGUSR2, &usrsig, 0) == -1)
 		exit(1);
-	while (1) ;
+	while (1)
+		;
 	return (0);
 }

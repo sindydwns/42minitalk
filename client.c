@@ -6,13 +6,13 @@
 /*   By: yonshin <yonshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 09:07:44 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/22 17:16:13 by yonshin          ###   ########.fr       */
+/*   Updated: 2022/11/22 17:54:11 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static char *message;
+static char	*g_message;
 
 static int	get_pid(int argc, char *argv[])
 {
@@ -28,7 +28,7 @@ static int	get_pid(int argc, char *argv[])
 	return (pid);
 }
 
-static char *get_message(int argc, char *argv[])
+static char	*get_message(int argc, char *argv[])
 {
 	if (argc < 3)
 		exit(1);
@@ -37,7 +37,7 @@ static char *get_message(int argc, char *argv[])
 	return (argv[2]);
 }
 
-void	signal_test2(int sig, siginfo_t *info, void *old)
+void	sigaction_func(int sig, siginfo_t *info, void *old)
 {
 	static t_sig	send;
 	int				res;
@@ -45,13 +45,16 @@ void	signal_test2(int sig, siginfo_t *info, void *old)
 	sig = 0;
 	old = 0;
 	if (send.i == 0)
-		send.c = *message;
+		send.c = *g_message;
 	if (++send.i == END_OF_BYTE)
 	{
-		message++;
+		g_message++;
 		send.i = 0;
 	}
-	res = SIGUSR1 + (send.c & 0b10000000) / 0b10000000;
+	if ((send.c & 0b10000000) / 0b10000000)
+		res = SIGUSR2;
+	else
+		res = SIGUSR1;
 	send.c = send.c << 1;
 	kill(info->si_pid, res);
 }
@@ -67,8 +70,8 @@ int	main(int argc, char *argv[])
 	const int			pid = get_pid(argc, argv);
 	struct sigaction	usrsig;
 
-	message = get_message(argc, argv);
-	usrsig.sa_sigaction = signal_test2;
+	g_message = get_message(argc, argv);
+	usrsig.sa_sigaction = sigaction_func;
 	sigemptyset(&usrsig.sa_mask);
 	usrsig.sa_flags = 0;
 	usrsig.sa_flags = SA_NODEFER | SA_SIGINFO;
@@ -77,6 +80,7 @@ int	main(int argc, char *argv[])
 	if (signal(SIGUSR2, signal_exit) == SIG_ERR)
 		exit(1);
 	kill(pid, SIGUSR1);
-	while (1) ;
+	while (1)
+		;
 	return (0);
 }

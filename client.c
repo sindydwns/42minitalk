@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yonshin <yonshin@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yonshin <yonshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 09:07:44 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/21 01:49:41 by yonshin          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:12:51 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	get_pid(int argc, char *argv[])
 	pid = ft_atoi(argv[1]);
 	if (pid < 1)
 		exit(1);
-	return (pid);	
+	return (pid);
 }
 
 static char *get_message(int argc, char *argv[])

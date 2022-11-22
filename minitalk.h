@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yonshin <yonshin@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yonshin <yonshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 00:39:50 by yonshin           #+#    #+#             */
-/*   Updated: 2022/11/17 02:01:02 by yonshin          ###   ########.fr       */
+/*   Updated: 2022/11/22 16:03:21 by yonshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 # include <stdlib.h>
 # include "libft.h"
 
+# define END_OF_BYTE 8
+
 typedef struct s_sig
 {
 	pid_t			pid;
-	unsigned char	buff[64];
-	unsigned int	byte;
-	unsigned int	bit;
+	int				i;
+	unsigned char	c;
 }	t_sig;
 
 #endif
